@@ -1,4 +1,7 @@
-package com.example.oopt2;
+package com.example.oopt2.stage2;
+
+import com.example.oopt2.stage1.MagneticSensor;
+import com.example.oopt2.stage1.State;
 
 /**
  * A window with its magnetic sensor.
@@ -6,7 +9,7 @@ package com.example.oopt2;
 
 public class Window {
     private final WindowView wView;
-    private final MagneticSensor magneticSensor;
+    private final com.example.oopt2.stage1.MagneticSensor magneticSensor;
     private State state;
     public Window(int zone, WindowView view) {
         magneticSensor = new MagneticSensor(zone);

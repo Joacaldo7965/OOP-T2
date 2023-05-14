@@ -1,7 +1,7 @@
-package com.example.oopt2;
+package com.example.oopt2.stage1;
 
 import javafx.scene.layout.Pane;
-import java.util.ArrayList;
+
 import java.util.Scanner;
 
 public class House extends Pane {

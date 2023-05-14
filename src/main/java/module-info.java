@@ -1,8 +1,7 @@
 module com.example.oopt2 {
     requires javafx.controls;
-    //requires javafx.fxml;
+    requires javafx.media;
 
 
-    //opens com.example.oopt2 to javafx.fxml;
-    exports com.example.oopt2;
+    exports com.example.oopt2.stage1;
 }

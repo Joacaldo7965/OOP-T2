@@ -8,7 +8,7 @@
    and the days of the week.
    https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html
   */
-package com.example.oopt2;
+package com.example.oopt2.stage1;
 
 public enum SwitchState {
     CLOSE,

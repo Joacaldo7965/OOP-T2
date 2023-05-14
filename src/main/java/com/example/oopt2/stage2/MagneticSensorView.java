@@ -1,4 +1,4 @@
-package com.example.oopt2;
+package com.example.oopt2.stage2;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;

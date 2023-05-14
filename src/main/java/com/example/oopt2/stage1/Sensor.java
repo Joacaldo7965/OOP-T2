@@ -1,4 +1,4 @@
-package com.example.oopt2;
+package com.example.oopt2.stage1;
 
 public class Sensor {
     private SwitchState state;
