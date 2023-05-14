@@ -4,4 +4,5 @@ module com.example.oopt2 {
 
 
     exports com.example.oopt2.stage1;
+    exports com.example.oopt2.stage2;
 }
