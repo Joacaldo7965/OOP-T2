@@ -8,6 +8,8 @@ import javafx.scene.shape.Polygon;
 import javafx.util.Duration;
 
 public class SirenView extends Polygon {
+    private final Timeline timeline;
+
     public SirenView() {
         getPoints().addAll(0d,30d,
                 0d,50d,
@@ -16,15 +18,21 @@ public class SirenView extends Polygon {
         setFill(Color.WHITE);
         setStroke(Color.RED);
         timeline = new Timeline(new KeyFrame(Duration.millis(250), evt -> {
-            //TODO: Check for activation
+            //TODO: Change colors
+            if(getFill() == Color.RED)
+                setFill(Color.GREEN);
+            else // If it needs to toggle color or activate alarm
+                setFill(Color.RED);
+
         }));
-        //timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.setCycleCount(Animation.INDEFINITE);
     }
     public void startBlinking(){
         timeline.play();
     }
     public void stopBlinking() {
-        //...
+        timeline.stop();
+        setFill(Color.WHITE);
     }
-    private final Timeline timeline;
+
 }

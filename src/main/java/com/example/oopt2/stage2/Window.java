@@ -1,7 +1,5 @@
 package com.example.oopt2.stage2;
 
-import com.example.oopt2.stage1.MagneticSensor;
-import com.example.oopt2.stage1.State;
 
 /**
  * A window with its magnetic sensor.
@@ -9,10 +7,10 @@ import com.example.oopt2.stage1.State;
 
 public class Window {
     private final WindowView wView;
-    private final com.example.oopt2.stage1.MagneticSensor magneticSensor;
+    private final MagneticSensor magneticSensor;
     private State state;
-    public Window(int zone, WindowView view) {
-        magneticSensor = new MagneticSensor(zone);
+    public Window(MagneticSensor sensor, WindowView view) { // Changed from Window(int zone,...) to Window(MagneticSensor sensor,...)
+        magneticSensor = sensor;
         state = State.CLOSE;
         wView = view;
         wView.addMagneticSensorView(magneticSensor.getView());
@@ -20,28 +18,27 @@ public class Window {
     }
     public void changeState() {  // is called when this window's view is clicked
         switch (state) {
-            case OPEN -> {
+            case OPEN, OPENING -> {
                 wView.startClosing();
                 state = State.CLOSING;
             }
-            case OPENING -> {
-                wView.startClosing();
-                state = State.CLOSING;
-            }
-            case CLOSE -> {
-                wView.startOpening();
-                state = State.OPENING;
-            }
-            case CLOSING -> {
+            case CLOSE, CLOSING -> {
                 wView.startOpening();
                 state = State.OPENING;
             }
         }
+        magneticSensor.setClose(false);
+        magneticSensor.getView().setOpenView();
+        System.out.println("State: " + state);
     }
     public void finishMovement(State s) { // is called when this window ends closing or opening
-        // TODO: set state
         state = s;
-        System.out.println("State: " + s);
+        System.out.println("State: " + state);
+        boolean isClosed = state == State.CLOSE;
+        if(isClosed){
+            magneticSensor.setClose(true);
+            magneticSensor.getView().setCloseView();
+        }
     }
     public WindowView getView(){
         return wView;

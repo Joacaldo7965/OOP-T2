@@ -7,12 +7,8 @@ public class MagneticSensor extends Sensor {
         super(z);
         view = new MagneticSensorView();
     }
-    public void setSensorOpen() {
-        //setState(SwitchState.OPEN);
+    public MagneticSensorView getView(){
+        return view;
     }
-    public void setSensorClose() {
-        //setState(SwitchState.CLOSE);
-    }
-    public MagneticSensorView getView(){ return view;}
 
 }

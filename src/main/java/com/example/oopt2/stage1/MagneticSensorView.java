@@ -10,16 +10,16 @@ public class MagneticSensorView extends Group {
 
     public MagneticSensorView () {
         switchView = new Rectangle(6,6);
-        setCloseView();
         magnetView = new Rectangle(6,6);
         magnetView.setFill(Color.BLACK);
         getChildren().addAll(magnetView,switchView);
+        setCloseView();
     }
     public void setCloseView(){
-        //...
+        magnetView.setFill(Color.BLACK);
     }
     public void setOpenView(){
-        //....
+        magnetView.setFill(Color.RED);
     }
     public Rectangle getSwitchView(){
         return switchView;

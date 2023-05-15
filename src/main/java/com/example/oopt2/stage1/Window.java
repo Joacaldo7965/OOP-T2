@@ -17,28 +17,22 @@ public class Window {
     }
     public void changeState() {  // is called when this window's view is clicked
         switch (state) {
-            case OPEN -> {
+            case OPEN, OPENING -> {
                 wView.startClosing();
                 state = State.CLOSING;
+                magneticSensor.setSensorOpen();
             }
-            case OPENING -> {
-                wView.startClosing();
-                state = State.CLOSING;
-            }
-            case CLOSE -> {
-                wView.startOpening();
-                state = State.OPENING;
-            }
-            case CLOSING -> {
+            case CLOSE, CLOSING -> {
                 wView.startOpening();
                 state = State.OPENING;
             }
         }
     }
     public void finishMovement(State s) { // is called when this window ends closing or opening
-        // TODO: set state
         state = s;
         System.out.println("State: " + s);
+        if(s == State.CLOSE)
+            magneticSensor.setSensorClose();
     }
     public WindowView getView(){
         return wView;

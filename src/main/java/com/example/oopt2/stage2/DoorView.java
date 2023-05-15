@@ -10,12 +10,20 @@ import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
 public class DoorView extends Group {
+    private RotateTransition rotateTransition;
+    private Door doorModel;
+    private Polygon switchPillar;
+    private Rectangle slidingSheet;
+
     public DoorView(int x, int y, int angle){
         makeDoorViewWithoutSensor();
-        setRotate(angle);  // to rotate at the geometric center.
+        //setRotate(angle);  // to rotate at the geometric center.
+        getTransforms().add(new Rotate(angle,0,0));
         relocate(x,y);
-        // getTransforms().add(new Rotate(angle,40,50));  // to rotate at anchor pivot (40,50)
+
+        prepareOpen_CloseTransition();
     }
+
     private void makeDoorViewWithoutSensor(){
         Polygon origenPillar = new Polygon();
         origenPillar.getPoints().addAll(0d,0d,
@@ -46,7 +54,10 @@ public class DoorView extends Group {
     }
     public void setDoorModel(Door model) {
         doorModel = model;
-        //setOnMouseClicked(....);
+
+        setOnMouseClicked(event -> {
+            doorModel.changeState();
+        });
     }
     public void addMagneticSensorView(MagneticSensorView msView){
         placeMagneticSensor(msView);
@@ -54,12 +65,45 @@ public class DoorView extends Group {
         getChildren().add(msView);
     }
     private void placeMagneticSensor( MagneticSensorView mv){
-        mv.getMagnetView().setX(slidingSheet.getX()+slidingSheet.getWidth()-mv.getMagnetView().getWidth());
-        //...
+        mv.getMagnetView().setX(slidingSheet.getX());
+        mv.getMagnetView().setY(switchPillar.getBoundsInLocal().getHeight());
+
+        // TODO: fix this... I give up with this ****
+        //mv.getMagnetView().translateXProperty().bind(slidingSheet.translateXProperty().add(slidingSheet.getWidth() / 2));
+        //mv.getMagnetView().translateYProperty().bind(slidingSheet.translateYProperty().add(slidingSheet.getHeight() / 2 - mv.getMagnetView().getHeight()));
+        mv.getMagnetView().rotateProperty().bind(slidingSheet.rotateProperty());
+
+        // Switch
         mv.getSwitchView().setY(switchPillar.getBoundsInLocal().getHeight());
     }
 
-    private Door doorModel;
-    private Polygon switchPillar;
-    private Rectangle slidingSheet;
+    private void prepareOpen_CloseTransition() {
+        rotateTransition = new RotateTransition(Duration.millis(2000), slidingSheet);
+        rotateTransition.setCycleCount(1);
+        rotateTransition.setOnFinished(evt -> {
+            if(slidingSheet.getRotate() == 0)
+                doorModel.finishMovement(State.CLOSE);
+            else
+                doorModel.finishMovement(State.OPEN);
+        });
+        // Set pivot
+        double x = slidingSheet.getWidth() / 2;
+        double y = slidingSheet.getHeight() / 2;
+        slidingSheet.getTransforms().add(new Translate(-x,-y));
+        slidingSheet.setTranslateX(x);
+        slidingSheet.setTranslateY(y);
+    }
+
+    public void startOpening(){
+        rotateTransition.stop();
+        rotateTransition.setFromAngle(slidingSheet.getRotate());
+        rotateTransition.setToAngle(-90);
+        rotateTransition.play();
+    }
+    public void startClosing(){
+        rotateTransition.stop();
+        rotateTransition.setFromAngle(slidingSheet.getRotate());
+        rotateTransition.setToAngle(0);
+        rotateTransition.play();
+    }
 }
