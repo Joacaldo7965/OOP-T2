@@ -1,4 +1,4 @@
-package com.example.oopt2.stage2;
+package com.example.oopt2.stage3;
 
 public class Door {
     private final DoorView dView;

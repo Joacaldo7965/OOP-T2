@@ -1,4 +1,4 @@
-package com.example.oopt2.stage2;
+package com.example.oopt2.stage3;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
